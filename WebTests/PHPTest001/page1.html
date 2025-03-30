@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo page1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body>
+    
+    <h1>Press Button</h1>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <input class="btn btn-primary" type="button" value="Input" onclick="setvaluea()">
+    <input class="btn btn-primary"  type="button" value="Input" onclick="setvalueb()">
+    <p id="outputitem" ></p> </p> 
+
+    <button onclick="callPHP2()">Call PHP2</button>
+    <button onclick="callPHPFunction()">Call PHP</button>
+    <button onclick="callDB()">Call DB</button>
+    <p id="result"></p>
+
+    <table id="dataTable" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        function setvaluea() {
+            localStorage.setItem("thevalue","A");
+            document.getElementById("outputitem").innerHTML = "A!";
+            window.close();
+        }
+        function setvalueb() {
+            localStorage.setItem("thevalue","B");
+            document.getElementById("outputitem").innerHTML = "B!";
+        }
+
+        function callPHPFunction() {
+            fetch('process.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                document.getElementById('result').innerText = data.message;
+                window.alert("Message is: " + data.message);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function addNumbers(num1, num2) {
+            fetch('add.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `num1=${num1}&num2=${num2}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result !== undefined) {
+                    window.alert("Sum:" + data.result);
+                } else {
+                    console.error("Error:", data.error);
+                }
+            })
+            .catch(error => console.error('Request failed', error));
+        }
+        
+        function callPHP2() {
+          addNumbers(7,5);
+        }
+
+        function callDB() {
+            fetch('db.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                document.getElementById('result').innerText = data.message;
+                
+                const myArr = data.message;
+                const tableBody = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+
+                myArr.forEach(person => {
+                let row = tableBody.insertRow(); // Create a new row
+
+                    let cell1 = row.insertCell(0);
+                    let cell2 = row.insertCell(1);
+                    let cell3 = row.insertCell(2);
+
+                    cell1.textContent = person.id;
+                    cell2.textContent = person.firstname;
+                    cell3.textContent = person.lastname;
+                });
+                window.alert("Message is: " + data.message[0].firstname);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+  </body>
+</html>
