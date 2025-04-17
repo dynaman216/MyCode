@@ -29,7 +29,14 @@ const App = () => {
 
   const StatisticLine = ({ statName, statValue }) => {
     return (
-      <p>{statName} {statValue}</p>
+      <tr>
+        <td>
+          {statName}
+        </td>
+        <td>
+          {statValue}
+        </td>
+      </tr>
     )
   }
 
@@ -45,12 +52,14 @@ const App = () => {
     {
       return (
         <>
-          <StatisticLine statName="good" statValue={good} />
-          <StatisticLine statName="neutral" statValue={neutral} />
-          <StatisticLine statName="bad" statValue={bad} />
-          <StatisticLine statName="all" statValue={good + neutral + bad} />
-          <StatisticLine statName="average" statValue={(good - bad) / (good + neutral + bad)} />
-          <StatisticLine statName="positive" statValue={(good) / (good + neutral + bad) * 100.0000 + "%"} />
+          <table>
+            <StatisticLine statName="good" statValue={good} />
+            <StatisticLine statName="neutral" statValue={neutral} />
+            <StatisticLine statName="bad" statValue={bad} />
+            <StatisticLine statName="all" statValue={good + neutral + bad} />
+            <StatisticLine statName="average" statValue={(good - bad) / (good + neutral + bad)} />
+            <StatisticLine statName="positive" statValue={(good) / (good + neutral + bad) * 100.0000 + "%"} />
+          </table>
         </>
       )
     }
