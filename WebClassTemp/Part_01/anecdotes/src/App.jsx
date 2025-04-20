@@ -1,5 +1,8 @@
 import { useState } from 'react'
 
+let mostVotes = 0;
+let mostVoteCount = 0;
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -44,14 +47,24 @@ const App = () => {
 
     let newvotes = votes;
     newvotes[selected] = newvote;
+
+    mostVotes = 0;
+    mostVoteCount = 0;
+    for (let l_Index in votes) {
+      if (votes[l_Index] > mostVoteCount) {
+        mostVotes = l_Index;
+        mostVoteCount = votes[l_Index];
+      }
+    }
+
     console.log('newvotes = ' + newvote);
     setVotes(newvotes);
 
-    let newVoteCount = voteCount +1;
+    let newVoteCount = voteCount + 1;
     setVoteCount(newVoteCount);
   }
 
-  const currentVotes= () => {
+  const currentVotes = () => {
     let voteCount = votes[selected];
     if (isNaN(voteCount)) {
       voteCount = 0;
@@ -67,6 +80,9 @@ const App = () => {
         <Button onClick={() => voteAnecdote()} text="Vote" />
         <Button onClick={() => nextAnecdote()} text="Next Anecdote" />
       </p>
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[mostVotes]}
+      <p> has {mostVoteCount} votes.</p>
     </div>
   )
 }
