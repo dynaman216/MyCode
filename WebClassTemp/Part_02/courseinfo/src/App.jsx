@@ -1,46 +1,84 @@
 const App = () => {
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3
-      }
+    const courses = [
+        {
+            name: 'Half Stack application development',
+            id: 1,
+            parts: [
+                {
+                    name: 'Fundamentals of React',
+                    exercises: 10,
+                    id: 1
+                },
+                {
+                    name: 'Using props to pass data',
+                    exercises: 7,
+                    id: 2
+                },
+                {
+                    name: 'State of a component',
+                    exercises: 14,
+                    id: 3
+                },
+                {
+                    name: 'Redux',
+                    exercises: 11,
+                    id: 4
+                }
+            ]
+        },
+        {
+            name: 'Node.js',
+            id: 2,
+            parts: [
+                {
+                    name: 'Routing',
+                    exercises: 3,
+                    id: 1
+                },
+                {
+                    name: 'Middlewares',
+                    exercises: 7,
+                    id: 2
+                }
+            ]
+        }
     ]
-  }
 
-  const totalexercises = course.parts.reduce((accumulator, part) => {
-    return accumulator + part.exercises;
-  }, 0);
-  
 
-  return (
-    <div>
-      <h1>{course.name}</h1>
-      <ul>
-        {course.parts.map(part =>
-          <li key={part.id}>
-            {part.name} {part.exercises}
-          </li>
-        )}
-      </ul>
+    const totalexercises = ({ parts }) => parts.reduce((accumulator, parts) => {
+        return accumulator + parts.exercises;
+    }, 0);
 
-        <h3>Total of {totalexercises} exercises.</h3>
-      
-    </div>
-  )
+
+    const CourseInfo = ({ name, id, parts }) => (
+        <>
+            <h3>{name}</h3>
+            <ul>
+                {parts?.map(part =>
+                    <li key={part.id}>
+                        {part.name} {part.exercises}
+                    </li>
+                )}
+            </ul>
+
+
+            {/* <h3>Total of {totalexercises(parts)} exercises.</h3> */}
+        </>
+    )
+
+    return (
+        <div>
+            <h1>Web Development Curriculum</h1>
+            {courses.map(course => (
+                <CourseInfo
+                    key={course.id}
+                    name={course.name}
+                    id={course.id}
+                    parts={course.parts}
+                />
+            ))}
+        </div>
+    )
 }
 
 export default App
