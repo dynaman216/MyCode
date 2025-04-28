@@ -1,3 +1,5 @@
+import Course from './components/Course'
+
 const App = () => {
     const courses = [
         {
@@ -45,7 +47,8 @@ const App = () => {
     ]
 
 
-    const totalexercises = ({ parts }) => parts.reduce((accumulator, parts) => {
+    {/* 
+    const TotalExercises = ({ parts }) => parts.reduce((accumulator, parts) => {
         return accumulator + parts.exercises;
     }, 0);
 
@@ -62,15 +65,17 @@ const App = () => {
             </ul>
 
 
-            {/* <h3>Total of {totalexercises(parts)} exercises.</h3> */}
+            <h3>Total of {TotalExercises(parts={parts})} exercises.</h3>
         </>
     )
+
+    */}
 
     return (
         <div>
             <h1>Web Development Curriculum</h1>
             {courses.map(course => (
-                <CourseInfo
+                <Course
                     key={course.id}
                     name={course.name}
                     id={course.id}
