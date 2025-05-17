@@ -5,9 +5,14 @@ import Person from './components/Person'
 import Persons from './components/Persons'
 import Form from './components/Form'
 import phoneService from './services/phoneService'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
+  const [alertMessage, setAlertMessage] = useState({
+    message: "",
+    type: ""
+  }) 
 
   useEffect(() => {
     console.log('effect')
@@ -52,12 +57,14 @@ const App = () => {
         phoneService
           .update(oldNumber.id, personObject)
           .then((returnedPerson) => {
-            setPersons(persons.map((person) => (person.id !== oldNumber.id ? person : returnedPerson)))
+            setPersons(persons.map((person) => (person.id !== oldNumber.id ? person : returnedPerson)))   
+            showAlert('alert' , `${newName}'s number has been updated.`)        
           })
       };
     } else {
       phoneService.create(personObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson))
+        showAlert('alert', `${newName} added to phonebook.`)
         setNewName('')
         setNewNumber('')
       })
@@ -71,14 +78,26 @@ const App = () => {
       const deletedId = person.id
 
       phoneService.deleteid(deletedId).then((returnOK) => {
-        {/* const newPersons = persons.map((person) => (person.id !== deletedId)) */ }
+        const oldName = persons.filter(person => person.id === deletedId)
         const newPersons = persons.filter(person => person.id !== deletedId)
         setPersons(newPersons)
+        showAlert('alert',`${oldName[0].name} deleted from phonebook`)
         setNewName('')
         setNewNumber('')
       })
     }
   }
+
+  const showAlert = (alertType, alertMessage) => {   
+    setAlertMessage({
+      message: alertMessage,
+      type: alertType })
+    setTimeout(() => {
+      setAlertMessage({
+        message: null,
+        type: "" })
+    }, 5000);
+   }
 
   return (
     <div>
@@ -89,6 +108,12 @@ const App = () => {
       </div>
 
       <h2>Phonebook</h2>
+
+      <Notification message={alertMessage.message} alertType={alertMessage.type} />
+
+      <button onClick={() => showAlert('alert', 'Alert!')}>Show Message</button>
+
+      <button onClick={()  =>showAlert('error', 'Error Message')}> Show Alert </button>
 
       <Form addNumber={addNumber} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
 
