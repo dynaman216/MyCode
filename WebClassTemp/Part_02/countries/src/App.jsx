@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import countryService from './services/countryService'
+
+import Countries from './components/Countries'
 import './App.css'
 
 const App = () => {
@@ -10,6 +11,10 @@ const App = () => {
   const filterCountries = (event) => {
     console.log(event.target.value)
     setCountryFilter(event.target.value)
+  }
+
+  const showCountry = (countryName) => {
+    setCountryFilter(countryName)
   }
 
   useEffect(() => {
@@ -27,6 +32,7 @@ const App = () => {
     <div>
       find countries <input value={countryFilter}
         onChange={filterCountries} />
+        <Countries countries={countries} filter={countryFilter} showCountry={showCountry}/>
     </div>
   )
 }
