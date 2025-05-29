@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+{/*}
 const weatherData = {
   "coord": { "lon": 10.99, "lat": 44.34 },
   "weather": [{ "id": 803, "main": "Clouds", "description": "broken clouds", "icon": "04d" }],
@@ -16,14 +17,17 @@ const weatherData = {
   "name": "Zocca",
   "cod": 200
 };
+*/}
+
+const weather_key = import.meta.env.VITE_WEATHER_KEY
 
 const Country = ({ country }) => {
   const [weatherData2, setWeatherData] = useState('')
-  var wxImage = "https://openweathermap.org/img/wn/" + weatherData.weather[0].icon + "@2x.png"
+  {/* var wxImage = "https://openweathermap.org/img/wn/" + weatherData2?.weather[0].icon + "@2x.png" */}
   useEffect(() => {
     console.log('Fetching Weather')
     axios
-      .get('https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=3567f6d0fb5f3a0a009779557bfa05cb')
+      .get('https://api.openweathermap.org/data/2.5/weather?lat=' + country.capitalInfo.latlng[0] + '&lon=' + country.capitalInfo.latlng[1] + '&appid=' + weather_key)
       .then(response => {
         console.log('Weather Fetched')
         setWeatherData(response.data)
