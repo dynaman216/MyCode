@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import countryService from './services/countryService'
 import Countries from './components/Countries'
 import './App.css'
 
