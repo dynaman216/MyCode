@@ -6,6 +6,10 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
+const cors = require('cors')
+
+app.use(cors())
+
 app.use(express.json())
 
 // Use Morgan with 'tiny' format
@@ -95,8 +99,8 @@ app.post('/api/persons', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => person.id !== id)
+    const id = parseInt(request.params.id)
+    persons = persons.filter(person => parseInt(person.id) !== id)
 
     response.status(204).end()
 })
