@@ -1,5 +1,9 @@
 require('dotenv').config()
+
+
 const express = require('express')
+
+
 const Note = require('./models/note')
 const app = express()
 
