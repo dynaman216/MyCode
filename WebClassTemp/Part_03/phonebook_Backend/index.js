@@ -103,7 +103,7 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
-
+    
     if (!body.name) {
         return response.status(400).json({
             error: 'name missing'
@@ -114,20 +114,36 @@ app.post('/api/persons', (request, response) => {
             error: 'number missing'
         })
     }
-    else if (persons.some(person => person.name === body.name)) {
+    else if (Person.exists({ name: body.name })) {
         return response.status(400).json({
             error: 'name already exists'
         })
     }
 
+    /*
+        else if (persons.some(person => person.name === body.name)) {
+            return response.status(400).json({
+                error: 'name already exists'
+            })
+        }
+    */
+    /*
     const person = {
         id: generateId(),
         name: body.name,
         number: body.number,
     }
+    */
 
-    persons = persons.concat(person)
-    response.json(person)
+    const person = new Person({
+        id: generateId(),
+        name: body.name,
+        number: body.number,
+    })
+
+    person.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
 })
 
 /*
