@@ -103,46 +103,36 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
-    
+
     if (!body.name) {
         return response.status(400).json({
             error: 'name missing'
         })
     }
-    else if (!body.number) {
+
+    if (!body.number) {
         return response.status(400).json({
             error: 'number missing'
         })
     }
-    else if (Person.exists({ name: body.name })) {
-        return response.status(400).json({
-            error: 'name already exists'
-        })
-    }
 
-    /*
-        else if (persons.some(person => person.name === body.name)) {
+    Person.exists({ name: body.name }).then(nameExists => {
+        if (nameExists) {
             return response.status(400).json({
                 error: 'name already exists'
             })
         }
-    */
-    /*
-    const person = {
-        id: generateId(),
-        name: body.name,
-        number: body.number,
-    }
-    */
 
-    const person = new Person({
-        id: generateId(),
-        name: body.name,
-        number: body.number,
-    })
+        // Proceed with the rest of your logic here if name doesn't exist
+        const person = new Person({
+            id: generateId(),
+            name: body.name,
+            number: body.number,
+        })
 
-    person.save().then(savedPerson => {
-        response.json(savedPerson)
+        person.save().then(savedPerson => {
+            response.json(savedPerson)
+        })
     })
 })
 
