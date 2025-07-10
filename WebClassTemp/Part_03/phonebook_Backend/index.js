@@ -146,8 +146,9 @@ app.delete('/api/persons/:id', (request, response) => {
 */
 
 app.delete('/api/persons/:id', (request, response, next) => {
-    const id = parseInt(request.params.id)
-    Note.findByIdAndDelete(id)
+    //const id = parseInt(request.params.id)
+    const id = request.params.id
+    Person.findByIdAndDelete(id)
         .then(result => {
             response.status(204).end()
         })
