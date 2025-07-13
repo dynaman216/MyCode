@@ -4,6 +4,7 @@ const Note = require('./models/note')
 
 const app = express()
 
+
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -22,6 +23,8 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+
+
 app.use(express.static('dist'))
 app.use(express.json())
 app.use(requestLogger)
@@ -29,6 +32,26 @@ app.use(requestLogger)
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/api/notes', (request, response) => {
   Note.find({}).then((notes) => {
