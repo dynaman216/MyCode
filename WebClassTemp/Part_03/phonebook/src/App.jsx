@@ -50,24 +50,28 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    if (persons.some(person => person.name === personObject.name)) {
-      if (window.confirm(`${newName} is already added in the phonebook.  Replace with new number?`)) {
-        const oldNumber = persons.find((n) => n.name === personObject.name)
-
-        phoneService
-          .update(oldNumber.id, personObject)
-          .then((returnedPerson) => {
-            setPersons(persons.map((person) => (person.id !== oldNumber.id ? person : returnedPerson)))
-            showAlert('alert', `${newName}'s number has been updated.`)
-          })
-      };
+    if (personObject.name.length < 3) {
+      showAlert('error', `Name must be at least 3 characters long.`)
     } else {
-      phoneService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson))
-        showAlert('alert', `${newName} added to phonebook.`)
-        setNewName('')
-        setNewNumber('')
-      })
+      if (persons.some(person => person.name === personObject.name)) {
+        if (window.confirm(`${newName} is already added in the phonebook.  Replace with new number?`)) {
+          const oldNumber = persons.find((n) => n.name === personObject.name)
+
+          phoneService
+            .update(oldNumber.id, personObject)
+            .then((returnedPerson) => {
+              setPersons(persons.map((person) => (person.id !== oldNumber.id ? person : returnedPerson)))
+              showAlert('alert', `${newName}'s number has been updated.`)
+            })
+        };
+      } else {
+        phoneService.create(personObject).then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson))
+          showAlert('alert', `${newName} added to phonebook.`)
+          setNewName('')
+          setNewNumber('')
+        })
+      }
     }
   }
 
@@ -122,7 +126,7 @@ const App = () => {
 
       <Notification message={alertMessage.message} alertType={alertMessage.type} />
 
-{/*
+      {/*
       <button onClick={() => showAlert('alert', 'Alert!')}>Show Message</button>
 
       <button onClick={() => showAlert('error', 'Error Message')}> Show Alert </button>
