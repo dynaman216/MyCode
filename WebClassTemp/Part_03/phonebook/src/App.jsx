@@ -15,13 +15,9 @@ const App = () => {
   })
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/api/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    phoneService.getAll().then(initialPhonebook => {
+      setPersons(initialPhonebook)
+    })
   }, [])
   console.log('render', persons.length, 'persons')
 
