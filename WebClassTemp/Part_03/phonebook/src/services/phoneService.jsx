@@ -17,19 +17,56 @@ const getAll = () => {
   return request.then((response) => response.data.concat(nonExisting))
 }
 
+/*
 const create = (newObject) => {
   const request = axios.post(baseUrl, newObject)
   return request.then((response) => response.data)
 }
+*/
+
+const create = async (newObject) => {
+  try {
+    const response = await axios.post(baseUrl, newObject);
+    console.log('Person added successfully:', response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      console.error('Server responded with an error:', error.response.data.error);
+    } else {
+      console.error('An unexpected error occurred:', error.message);
+    }
+    throw error; // Re-throw if you want the calling context to also handle it
+  }
+};
+
+
 
 const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then((response) => response.data)
+  try {
+    const request = axios.put(`${baseUrl}/${id}`, newObject)
+    return request.then((response) => response.data)
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      console.error('Server responded with an error:', error.response.data.error);
+    } else {
+      console.error('An unexpected error occurred:', error.message);
+    }
+    throw error; // Re-throw if you want the calling context to also handle it
+  }
 }
 
 const deleteid = (id) => {
-  const request = axios.delete(`${baseUrl}/${id}`)  
-  return request.then((response) => response.data)
+  try {
+    const request = axios.delete(`${baseUrl}/${id}`)
+    return request.then((response) => response.data)
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      console.error('Server responded with an error:', error.response.data.error);
+    } else {
+      console.error('An unexpected error occurred:', error.message);
+    }
+    throw error; // Re-throw if you want the calling context to also handle it
+  }
 }
 
 export default {

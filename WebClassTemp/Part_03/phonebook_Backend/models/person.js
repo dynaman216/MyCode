@@ -13,10 +13,34 @@ mongoose.connect(url)
         console.log('error connecting to MongoDB:', error.message)
     })
 
+const phoneNumberValidator = {
+  validator: function (value) {
+    // Regular expression explanation:
+    // ^        -> Start of string
+    // \d{2,3}  -> Exactly 2 or 3 digits
+    // -        -> Literal hyphen
+    // \d+      -> One or more digits
+    // $        -> End of string
+    // .length === 8 ensures total string length
+    return /^\d{2,3}-\d+$/.test(value) && value.length > 7;
+  },
+  message: props => `${props.value} is not a valid phone number. It must be at least 8 characters and in the format like "12-345678" or "123-4567890".`
+};
+
+
 const personSchema = new mongoose.Schema({
     id: String,
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minLength: 3,
+        required: true
+    },
+    number:{
+    type: String,
+    validate: phoneNumberValidator,
+    required: true
+  }
+
 })
 
 personSchema.set('toJSON', {
