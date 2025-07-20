@@ -1,6 +1,6 @@
 require('dotenv').config()
-const express = require('express');
-const morgan = require('morgan');
+const express = require('express')
+const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const Person = require('./models/person')
 const app = express()
@@ -40,10 +40,10 @@ app.use(express.json())
 app.use(bodyParser.json())
 
 // Create a custom Morgan token to log request body
-morgan.token('body', (request) => JSON.stringify(request.body));
+morgan.token('body', (request) => JSON.stringify(request.body))
 
 // Use Morgan with the custom token
-app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body'));
+app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body'))
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -73,7 +73,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 })
 
 
-/* 
+/*
 app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
     const person = persons.find(note => note.id === id)
@@ -135,7 +135,7 @@ app.delete('/api/persons/:id', (request, response) => {
 */
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const { name, number } = request.body
+  const { number } = request.body
 
   Person.findById(request.params.id)
     .then((person) => {
@@ -159,9 +159,9 @@ app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(id)
     .then(result => {
       if (result) {
-        response.status(204).end(); // Successfully deleted
+        response.status(204).end() // Successfully deleted
       } else {
-        response.status(404).json({ error: 'Person not found' }); // ID does not exist
+        response.status(404).json({ error: 'Person not found' }) // ID does not exist
       }
     })
     .catch(error => next(error))
@@ -169,15 +169,16 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.get('/api/info', async (request, response) => {
   try {
-    const count = await Person.countDocuments({});
+    const count = await Person.countDocuments({})
     response.send(
       `<h1>Phonebook has information for ${count} people</h1>
        <p>${new Date()}</p>`
-    );
+    )
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
-    response.status(500).send({ error: 'Unable to fetch count' });
+    response.status(500).send({ error: 'Unable to fetch count' })
   }
-});
+})
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
