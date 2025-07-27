@@ -1,0 +1,18 @@
+GET http://localhost:3003/api/blogs/
+
+###
+GET http://localhost:3003/api/blogs/688527293caee9e748c4f2cc
+
+###
+GET http://localhost:3003/api/info
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "War and Peace",
+    "author": "Ernst Hemmingway",
+    "url": "www.yahoo.com",
+    "likes": 5
+}
