@@ -1,7 +1,7 @@
 GET http://localhost:3003/api/blogs/
 
 ###
-GET http://localhost:3003/api/blogs/688527293caee9e748c4f2cc
+GET http://localhost:3003/api/blogs/6890d107d08cd9fe93b43a86
 
 ###
 GET http://localhost:3003/api/info
@@ -16,3 +16,16 @@ content-type: application/json
     "url": "www.yahoo.com",
     "likes": 5
 }
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "author": "Ernst Hemmingway",
+    "url": "www.yahoo.com",
+    "likes": 5
+}
+
+###
+DELETE  http://localhost:3003/api/blogs/6890d107d08cd9fe93b43a86

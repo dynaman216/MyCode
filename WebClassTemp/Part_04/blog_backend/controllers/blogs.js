@@ -19,13 +19,39 @@ blogsRouter.get('/:id', (request, response, next) => {
     .catch((error) => next(error))
 })
 
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', (request, response, next) => {
   const blog = new Blog(request.body)
 
-  blog.save().then((result) => {
+  blog.save()
+  .then((savedBlog) => {
+      response.json(savedBlog)
+    })
+    .catch((error) => next(error))
+})
+  
+
+/*
+  .then((result) => {
     response.status(201).json(result)
   })
 })
+
+notesRouter.post('/', (request, response, next) => {
+  const body = request.body
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+  })
+
+  note
+    .save()
+    .then((savedNote) => {
+      response.json(savedNote)
+    })
+    .catch((error) => next(error))
+})
+*/
 
 blogsRouter.delete('/:id', (request, response, next) => {
   Blog.findByIdAndDelete(request.params.id)
