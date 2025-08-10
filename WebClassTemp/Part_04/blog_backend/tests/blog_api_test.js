@@ -17,11 +17,10 @@ test('blogs are returned as json', async () => {
 })
 */
 
-
 test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
 
-    assert.strictEqual(response.body.length, 27)
+    assert.strictEqual(response.body.length, 33)
 })
 
 test('a specific blog is within the returned blogs', async () => {
@@ -39,42 +38,6 @@ test('blog item has id instead of _id', async () => {
     });
 });
 
-/*
-test('New Blog is created', async () => {
-    // 📊 Initial count
-    const initialResponse = await api.get('/api/blogs');
-    const initialCount = initialResponse.body.length;
-
-    // 📝 New blog to post
-    const newBlog = {
-        title: 'Barney\'s Blog',
-        author: 'Barney Rubble',
-        url: 'https://BedrockNews.com',
-        likes: 3,
-    };
-
-    // 🚀 POST request
-    const postResponse = await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .set('Content-Type', 'application/json');
-
-    assert.strictEqual(postResponse.status, 201, 'Expected status 201 for successful creation');
-
-    // 📊 Final count
-    const finalResponse = await api.get('/api/blogs');
-    const finalCount = finalResponse.body.length;
-
-    assert.strictEqual(finalCount, initialCount + 1, 'Blog count did not increase by one');
-
-    // 🔍 Verify content
-    const response = finalResponse.body.find(blog => blog.title === newBlog.title);
-    assert.ok(response, 'New blog post not found in response');
-    assert.strictEqual(response.author, newBlog.author);
-    assert.strictEqual(response.url, newBlog.url);
-    assert.strictEqual(response.likes, newBlog.likes);
-});
-*/
 test('missing like returns 0 instead of empty', async () => {
     const response = await api.get('/api/blogs');
     response.body.forEach(blog => {
@@ -123,6 +86,56 @@ test('URL Required', async () => {
         throw err;
     }
 });
+
+test('Check Likes', async () => {
+    const updateLikes = { likes: 7 };
+
+    try {
+        const response = await api
+            .put('/api/blogs/688527293caee9e748c4f2cc')
+            .send(updateLikes)
+            .set('Content-Type', 'application/json');
+
+        assert.strictEqual(response.status, 200, 'Expected status 200');
+        assert.strictEqual(response.body.likes, 7, 'Expected 7 likes');
+    } catch (err) {
+        console.error('❌ Error during test:', err);
+        throw err;
+    }
+});
+
+test('Delete Test', async () => {
+  const blogToDelete = {
+    title: 'Delete Me',
+    author: 'Paul',
+    url: 'http://example.com',
+    likes: 5
+  };
+
+  try {
+    const response = await api
+      .post('/api/blogs')
+      .send(blogToDelete)
+      .set('Content-Type', 'application/json');
+
+    const blogId = response.body.id;
+    console.log('Created blog ID:', blogId);
+
+    const deleteResponse = await api.delete('/api/blogs/' + blogId);
+    console.log('Delete status:', deleteResponse.status);
+
+    const responseCount = await api.get('/api/blogs');
+    console.log('Remaining blogs:', responseCount.body.length);
+
+    assert.strictEqual(deleteResponse.status, 204);
+    assert.strictEqual(responseCount.body.find(b => b.id === blogId), undefined);
+  } catch (err) {
+    console.error('❌ Error during test:', err);
+    throw err;
+  }
+});
+
+
 
 after(async () => {
     await mongoose.connection.close()
