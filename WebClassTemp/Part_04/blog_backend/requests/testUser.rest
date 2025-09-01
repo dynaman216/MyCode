@@ -1,16 +1,16 @@
 GET http://localhost:3003/api/users/
 
 ###
-GET http://localhost:3003/api/users/68aa3633a704522bf1761a64
+GET http://localhost:3003/api/users/68b352d8d48a9dd478ba053c
 
 ###
 POST http://localhost:3003/api/users/ HTTP/1.1
 content-type: application/json
 
 {
-    "username": "by",
+    "username": "PaulB",
     "name": "Paul Blankenship",
-    "password": "FredFlintstone"
+    "password": "byte"
 }
 
 ###
