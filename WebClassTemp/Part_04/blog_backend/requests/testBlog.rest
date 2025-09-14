@@ -1,7 +1,7 @@
 GET http://localhost:3003/api/blogs/
 
 ###
-GET http://localhost:3003/api/blogs/68964b4ca2aa8e438243a37b
+GET http://localhost:3003/api/blogs/68c5a73e45452e035f572eb3
 
 ###
 GET http://localhost:3003/api/info
@@ -12,8 +12,8 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s
 
 {
-    "title": "War and Peace",
-    "author": "Ernst Hemmingway",
+    "title": "Snoopy Come Home",
+    "author": "Charles Schulz",
     "url": "www.yahoo.com",
     "likes": 5,
     "userId": "68b352d8d48a9dd478ba053c"
@@ -38,7 +38,7 @@ content-type: application/json
 }
 
 ###
-DELETE  http://localhost:3003/api/blogs/68b5d5babc7d4f710ab9c31a
+DELETE  http://localhost:3003/api/blogs/68c5a73e45452e035f572eb3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s
 
 ###

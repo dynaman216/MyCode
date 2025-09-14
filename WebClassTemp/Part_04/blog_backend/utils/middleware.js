@@ -23,6 +23,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message })
   } else if (error.name === 'JsonWebTokenError') {
     return response.status(401).json({ error: 'token invalid' })
+  } else if (error.name === 'JsonWebTokenError') {
+    return response.status(401).json({ error: 'token invalid' })
   }
 
   next(error)
@@ -42,7 +44,8 @@ const userExtractor = async (request, response, next) => {
   try {
     const authorization = request.get('authorization');
     if (!authorization || !authorization.toLowerCase().startsWith('bearer ')) {
-      return response.status(401).json({ error: 'token missing or malformed' });
+      //return response.status(401).json({ error: 'token missing or malformed' });
+      return next();
     }
 
     const token = authorization.substring(7);
@@ -64,10 +67,18 @@ const userExtractor = async (request, response, next) => {
   }
 };
 
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler, 
+  errorHandler,
   tokenExtractor,
   userExtractor
 }

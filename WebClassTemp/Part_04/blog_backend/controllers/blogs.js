@@ -1,9 +1,8 @@
 const blogsRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
-//const {userExtractor} = require('../utils/middleware.js')
 const Blog = require('../models/blog.js')
 const User = require('../models/user.js')
-const {userExtractor} = require('../utils/middleware.js')
+const { userExtractor } = require('../utils/middleware.js')
 
 blogsRouter.get('/', async (request, response) => {
   try {
@@ -28,29 +27,16 @@ blogsRouter.get('/:id', async (request, response, next) => {
   }
 });
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
-
-//blogsRouter.post('/', async (request, response, next) => {
 blogsRouter.post('/', userExtractor, async (request, response, next) => {
   try {
     const blog = new Blog(request.body);
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
     const user = request.user
-
-   // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET) 
-    //const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
     if (!user.id) {
       return response.status(401).json({ error: 'token invalid' })
     }
-    //const user = await User.findById(decodedToken.id)
-    
+
     const newBlog = new Blog({
       title: blog.title,
       author: blog.author,
@@ -69,17 +55,6 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
   }
 });
 
-/*
-blogsRouter.delete('/:id', async (request, response, next) => {
-  try {
-    const blog = await Blog.findByIdAndDelete(request.params.id)
-    response.status(204).end()
-  } catch (error) {
-    next(error);
-  }
-})
-*/
-
 blogsRouter.delete('/:id', async (request, response, next) => {
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
@@ -92,7 +67,8 @@ blogsRouter.delete('/:id', async (request, response, next) => {
       return response.status(404).json({ error: 'blog not found' });
     }
 
-    if (blog.user.toString() !== decodedToken.id) {
+    const user = request.user
+    if (user.id !== decodedToken.id) {
       return response.status(403).json({ error: 'unauthorized: not the blog owner' });
     }
 

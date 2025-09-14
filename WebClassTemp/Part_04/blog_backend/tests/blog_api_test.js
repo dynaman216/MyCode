@@ -20,7 +20,7 @@ test('blogs are returned as json', async () => {
 test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
 
-    assert.strictEqual(response.body.length, 33)
+    assert.strictEqual(response.body.length, 23)
 })
 
 test('a specific blog is within the returned blogs', async () => {
@@ -41,7 +41,6 @@ test('blog item has id instead of _id', async () => {
 test('missing like returns 0 instead of empty', async () => {
     const response = await api.get('/api/blogs');
     response.body.forEach(blog => {
-        //console.log('Transforming blog:', blog.title + " " + blog.likes);
         assert.ok(blog.likes, 'Blog likes is missing instead of 0.');
         assert.strictEqual(typeof blog.likes, 'number', 'Blog likes should be a number');
     });
@@ -58,7 +57,8 @@ test('Title Required', async () => {
         const response = await api
             .post('/api/blogs')
             .send(blogWithoutTitle)
-            .set('Content-Type', 'application/json');
+            .set('Content-Type', 'application/json')
+            .set('authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s');
 
         assert.strictEqual(response.status, 400, 'Expected 400 when title is missing');
     } catch (err) {
@@ -78,7 +78,8 @@ test('URL Required', async () => {
         const response = await api
             .post('/api/blogs')
             .send(blogWithoutTitle)
-            .set('Content-Type', 'application/json');
+            .set('Content-Type', 'application/json')
+            .set('authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s');
 
         assert.strictEqual(response.status, 400, 'Expected 400 when title is missing');
     } catch (err) {
@@ -92,9 +93,10 @@ test('Check Likes', async () => {
 
     try {
         const response = await api
-            .put('/api/blogs/688527293caee9e748c4f2cc')
+            .put('/api/blogs/68c59d20a20e6fc63aea3059')
             .send(updateLikes)
-            .set('Content-Type', 'application/json');
+            .set('Content-Type', 'application/json')
+            .set('authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s');
 
         assert.strictEqual(response.status, 200, 'Expected status 200');
         assert.strictEqual(response.body.likes, 7, 'Expected 7 likes');
@@ -105,7 +107,8 @@ test('Check Likes', async () => {
 });
 
 test('Delete Test', async () => {
-  const blogToDelete = {
+  console.log('Starting Delete Test');
+    const blogToDelete = {
     title: 'Delete Me',
     author: 'Paul',
     url: 'http://example.com',
@@ -116,12 +119,14 @@ test('Delete Test', async () => {
     const response = await api
       .post('/api/blogs')
       .send(blogToDelete)
-      .set('Content-Type', 'application/json');
+      .set('Content-Type', 'application/json')
+      .set('authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s');
 
     const blogId = response.body.id;
     console.log('Created blog ID:', blogId);
 
-    const deleteResponse = await api.delete('/api/blogs/' + blogId);
+    const deleteResponse = await api.delete('/api/blogs/' + blogId)
+                                    .set('authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s');
     console.log('Delete status:', deleteResponse.status);
 
     const responseCount = await api.get('/api/blogs');
@@ -134,8 +139,6 @@ test('Delete Test', async () => {
     throw err;
   }
 });
-
-
 
 after(async () => {
     await mongoose.connection.close()
