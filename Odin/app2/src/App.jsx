@@ -3,19 +3,30 @@ import { useState } from 'react'
 //import viteLogo from '/vite.svg'
 import './App.css'
 import Greeting from './Greeting'
+import MyMuiComponent3 from './BasicGrid';
+import BasicGrid from './BasicGrid';
 import MyMuiComponent2 from './MyMuiComponent2';
+import MyMenu from './MyMenu';
+import Counter from './Counter'
+import Canvas from './Canvas';
 
 function App() {
   //const [count, setCount] = useState(0)
 
+  //<h1>Hello World!</h1>
+  // <Greeting /> 
   return (
     <div>
-      <h1>Hello World!</h1>
-      <Greeting />
-      <MyMuiComponent2 />
+      <MyMenu />
+      <BasicGrid />
+
+      <Counter />
+      <Canvas />
     </div>
   )
   /*
+  
+  
   return (
       <>
         <div>
