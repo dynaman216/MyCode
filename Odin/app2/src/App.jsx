@@ -8,6 +8,10 @@ import BasicGrid from './BasicGrid';
 import MyMuiComponent2 from './MyMuiComponent2';
 import MyMenu from './MyMenu';
 import Counter from './Counter'
+<<<<<<< HEAD
+=======
+import Canvas from './Canvas';
+>>>>>>> d58167a232b2b7437ba0378bca6d8cca208a0db6
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -16,6 +20,7 @@ function App() {
   // <Greeting /> 
   return (
     <div>
+<<<<<<< HEAD
       <BasicGrid />
 
       <Counter />
@@ -23,6 +28,17 @@ function App() {
   )
   /*
   <MyMenu />
+=======
+      <MyMenu />
+      <BasicGrid />
+
+      <Counter />
+      <Canvas />
+    </div>
+  )
+  /*
+  
+>>>>>>> d58167a232b2b7437ba0378bca6d8cca208a0db6
   
   return (
       <>
