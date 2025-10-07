@@ -1,0 +1,35 @@
+GET http://localhost:3003/api/users/
+
+###
+GET http://localhost:3003/api/users/68b352d8d48a9dd478ba053c
+
+###
+POST http://localhost:3003/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "PaulB",
+    "name": "Paul Blankenship",
+    "password": "byte"
+}
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "author": "Ernst Hemmingway",
+    "url": "www.yahoo.com",
+    "likes": 5
+}
+
+###
+PUT  http://localhost:3003/api/blogs/688527293caee9e748c4f2cc
+content-type: application/json
+
+{
+    "likes": 6
+}
+
+###
+DELETE  http://localhost:3003/api/users/68aa3633a704522bf1761a64

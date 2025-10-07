@@ -1,0 +1,51 @@
+GET http://localhost:3003/api/blogs/
+
+###
+GET http://localhost:3003/api/blogs/68c5a73e45452e035f572eb3
+
+###
+GET http://localhost:3003/api/info
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s
+
+{
+    "title": "Snoopy Come Home",
+    "author": "Charles Schulz",
+    "url": "www.yahoo.com",
+    "likes": 5,
+    "userId": "68b352d8d48a9dd478ba053c"
+}
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "author": "Ernst Hemmingway",
+    "url": "www.yahoo.com",
+    "likes": 5
+}
+
+###
+PUT  http://localhost:3003/api/blogs/688527293caee9e748c4f2cc
+content-type: application/json
+
+{
+    "likes": 6
+}
+
+###
+DELETE  http://localhost:3003/api/blogs/68c5a73e45452e035f572eb3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhdWxCIiwiaWQiOiI2OGIzNTJkOGQ0OGE5ZGQ0NzhiYTA1M2MiLCJpYXQiOjE3NTY3NDQ5MzB9.4aR9FB3KBoPRpwatgueH73XtRUZF9xjxqTfNmhmoY2s
+
+###
+POST http://localhost:3003/api/login
+content-type: application/json
+
+{
+    "username": "PaulB",
+    "password": "byte"
+}
