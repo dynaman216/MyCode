@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Notification from './components/Notification'
 import Blog from './components/Blog'
+import CreateBlog from './components/CreateBlog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -105,6 +106,7 @@ const App = () => {
       {user && (
         <div>
           <p>{user.name} logged in</p> <button onClick={handleLogout}>Logout</button>
+          <CreateBlog blogs = {blogs} setBlogs = {setBlogs} />
           {blogForm()}
         </div>
       )}
