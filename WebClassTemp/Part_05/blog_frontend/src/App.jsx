@@ -7,7 +7,11 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [alertMessage, setAlertMessage] = useState({
+    message: null,
+    type: ""
+  })
+  
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -27,6 +31,19 @@ const App = () => {
     }
   }, [])
 
+  const showAlert = (alertType, alertMessage) => {
+    setAlertMessage({
+      message: alertMessage,
+      type: alertType
+    })
+    setTimeout(() => {
+      setAlertMessage({
+        message: null,
+        type: ""
+      })
+    }, 5000);
+  }
+
   const handleLogin = async event => {
     event.preventDefault()
 
@@ -39,10 +56,10 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch {
-      setErrorMessage('wrong credentials')
+    } catch {     
+      showAlert('error', `Invalid Credentials`)
       setTimeout(() => {
-        setErrorMessage(null)
+        showAlert('error','')
       }, 5000)
     }
     console.log('logging in with', username, password)
@@ -86,8 +103,8 @@ const App = () => {
     </div>
   );
 
-  const handleLogout = async() => {
-       try {      
+  const handleLogout = async () => {
+    try {
       window.localStorage.removeItem(
         'loggedBlogappUser'
       )
@@ -95,18 +112,20 @@ const App = () => {
       setUser(null)
       setUsername('')
       setPassword('')
-    } catch {null}
+    } catch { null }
     console.log('logging out')
   }
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={alertMessage.message} alertType={alertMessage.type} />
       {!user && loginForm()}
       {user && (
         <div>
           <p>{user.name} logged in</p> <button onClick={handleLogout}>Logout</button>
-          <CreateBlog blogs = {blogs} setBlogs = {setBlogs} />
+          <CreateBlog blogs={blogs}
+            setBlogs={setBlogs}
+            showAlert={showAlert} />
           {blogForm()}
         </div>
       )}
