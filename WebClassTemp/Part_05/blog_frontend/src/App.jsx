@@ -11,7 +11,7 @@ const App = () => {
     message: null,
     type: ""
   })
-  
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -56,14 +56,31 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch {     
+    } catch {
       showAlert('error', `Invalid Credentials`)
       setTimeout(() => {
-        showAlert('error','')
+        showAlert('error', '')
       }, 5000)
     }
     console.log('logging in with', username, password)
   }
+
+  const addLike = (blog) => {
+    const changeBlog = { ...blog, likes: blog.likes + 1 };
+
+    blogService
+      .update(changeBlog.id, changeBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(b => (b.id !== returnedBlog.id ? b : returnedBlog)));
+      })
+      .catch(() => {
+        showAlert('error', `Blog '${blog.title}' could not be updated`);
+      });
+
+    setTimeout(() => {
+      showAlert('error', null);
+    }, 5000);
+  };
 
 
   const loginForm = () => (
@@ -97,9 +114,13 @@ const App = () => {
   const blogForm = () => (
     <div>
       <h2>Blogs</h2>
-      {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      {blogs
+        .slice()
+        .sort((a, b) => b.likes - a.likes)
+        .map(blog => (
+          <Blog key={blog.id} blog={blog} addLike={addLike} />
+        ))}
+
     </div>
   );
 
