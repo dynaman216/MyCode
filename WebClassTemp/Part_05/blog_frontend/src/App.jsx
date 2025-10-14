@@ -82,6 +82,23 @@ const App = () => {
     }, 5000);
   };
 
+  const deleteBlog = (blog) => {
+    if (confirm('Delete ' + blog.name + "?") == true) {
+      const blogDeleteId = blog.id
+      blogService
+        .deleteBlog(blog.id)
+        .then(() => {
+          setBlogs(blogs.filter(b => b.id !== blogDeleteId));
+        })
+        .catch(error => {
+          console.error("Failed to delete blog:", error);
+          alert("Error deleting blog");
+        });
+    } else {
+      alert("No Delete");
+    }
+
+  }
 
   const loginForm = () => (
     <div>
@@ -118,7 +135,7 @@ const App = () => {
         .slice()
         .sort((a, b) => b.likes - a.likes)
         .map(blog => (
-          <Blog key={blog.id} blog={blog} addLike={addLike} />
+          <Blog key={blog.id} blog={blog} user={user} addLike={addLike} deleteBlog={deleteBlog} />
         ))}
 
     </div>
