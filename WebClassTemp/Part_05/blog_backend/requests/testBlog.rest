@@ -1,7 +1,7 @@
 GET http://localhost:3003/api/blogs/
 
 ###
-GET http://localhost:3003/api/blogs/68b455196ef27e3df57faefe
+GET http://localhost:3003/api/blogs/68ebf42f3362f95f23214c1d
 
 ###
 GET http://localhost:3003/api/info
@@ -30,7 +30,7 @@ content-type: application/json
 }
 
 ###
-PUT  http://localhost:3003/api/blogs/688527293caee9e748c4f2cc
+PUT  http://localhost:3003/api/blogs/68ebf42f3362f95f23214c1d
 content-type: application/json
 
 {
@@ -46,6 +46,6 @@ POST http://localhost:3003/api/login
 content-type: application/json
 
 {
-    "username": "PaulB",
+    "username": "PaulC",
     "password": "byte"
 }

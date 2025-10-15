@@ -9,7 +9,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [alertMessage, setAlertMessage] = useState({
     message: null,
-    type: ""
+    type: ''
   })
 
   const [username, setUsername] = useState('')
@@ -39,9 +39,9 @@ const App = () => {
     setTimeout(() => {
       setAlertMessage({
         message: null,
-        type: ""
+        type: ''
       })
-    }, 5000);
+    }, 5000)
   }
 
   const handleLogin = async event => {
@@ -57,7 +57,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      showAlert('error', `Invalid Credentials`)
+      showAlert('error', 'Invalid Credentials')
       setTimeout(() => {
         showAlert('error', '')
       }, 5000)
@@ -66,36 +66,36 @@ const App = () => {
   }
 
   const addLike = (blog) => {
-    const changeBlog = { ...blog, likes: blog.likes + 1 };
+    const changeBlog = { ...blog, likes: blog.likes + 1 }
 
     blogService
       .update(changeBlog.id, changeBlog)
       .then(returnedBlog => {
-        setBlogs(blogs.map(b => (b.id !== returnedBlog.id ? b : returnedBlog)));
+        setBlogs(blogs.map(b => (b.id !== returnedBlog.id ? b : returnedBlog)))
       })
       .catch(() => {
-        showAlert('error', `Blog '${blog.title}' could not be updated`);
-      });
+        showAlert('error', `Blog '${blog.title}' could not be updated`)
+      })
 
     setTimeout(() => {
-      showAlert('error', null);
-    }, 5000);
-  };
+      showAlert('error', null)
+    }, 5000)
+  }
 
   const deleteBlog = (blog) => {
-    if (confirm('Delete ' + blog.name + "?") == true) {
+    if (confirm('Delete ' + blog.name + '?') === true) {
       const blogDeleteId = blog.id
       blogService
         .deleteBlog(blog.id)
         .then(() => {
-          setBlogs(blogs.filter(b => b.id !== blogDeleteId));
+          setBlogs(blogs.filter(b => b.id !== blogDeleteId))
         })
         .catch(error => {
-          console.error("Failed to delete blog:", error);
-          alert("Error deleting blog");
-        });
+          console.error('Failed to delete blog:', error)
+          alert('Error deleting blog')
+        })
     } else {
-      alert("No Delete");
+      alert('No Delete')
     }
 
   }
@@ -139,7 +139,7 @@ const App = () => {
         ))}
 
     </div>
-  );
+  )
 
   const handleLogout = async () => {
     try {

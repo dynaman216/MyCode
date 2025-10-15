@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const Blog = ({ blog, user, addLike, deleteBlog }) => {
   const [showDetails, setShowDetails] = useState('show')
 
   const ToggleShowDetails = () => {
-    if (showDetails == 'show') {
+    if (showDetails === 'show') {
       setShowDetails('hide')
     } else {
       setShowDetails('show')
