@@ -90,3 +90,49 @@ test('shows URL and likes after clicking the details button', async () => {
   expect(likesElement).toBeDefined()
 
 })
+
+test('shows Likes button clicked twice', async () => {
+
+  const user = {
+    username: 'PaulB',
+    name: 'Paul Blankenship',
+    id: '68b352d8d48a9dd478ba053c'
+  }
+
+  const blog = {
+    title: 'Snoopy Come Home',
+    author: 'Charles Schulz',
+    url: 'www.yahoo.com',
+    likes: 5,
+    userId: '68b352d8d48a9dd478ba053c',
+    user: {
+      username: 'PaulB',
+      name: 'Paul Blankenship',
+      id: '68b352d8d48a9dd478ba053c'
+    },
+  }
+
+  const mockHandler = vi.fn()
+
+  render(<Blog blog={blog} user={user} addLike={mockHandler} />)
+
+  screen.debug
+
+  const user2 = userEvent.setup()
+  const showButton = screen.getByRole('button', { name: /show/i }) // assumes the button has text like "view"
+  await user2.click(showButton)
+
+  expect(screen.getByText('www.yahoo.com')).toBeDefined()
+
+  const likesElement = screen.getByText((content, element) => {
+    return element.tagName.toLowerCase() === 'p' && content.includes('Likes')
+  })
+  expect(likesElement).toBeDefined()
+
+  const likeButton = await screen.findByText('Like')
+  await user2.click(likeButton)
+  await user2.click(likeButton)
+  expect(mockHandler).toHaveBeenCalledTimes(2)
+  expect(mockHandler.mock.calls[0][0]).toEqual(blog)
+  expect(mockHandler.mock.calls[1][0]).toEqual(blog)
+})
