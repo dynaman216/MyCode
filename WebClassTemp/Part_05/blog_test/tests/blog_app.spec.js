@@ -1,7 +1,15 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
 
 describe('Blog app', () => {
-    beforeEach(async ({ page }) => {
+    beforeEach(async ({ page, request }) => {
+        await request.post('/api/users', {
+            data: {
+                name: 'Paul Blankenship',
+                username: 'PaulB',
+                password: 'byte'
+            }
+        })
+
         await page.goto('http://localhost:5173')
     })
 
@@ -15,18 +23,38 @@ describe('Blog app', () => {
             console.log('did not need to logout')
         }
 
-        //login.
-        const locator = page.getByText('Login')
-        await expect(locator).toBeVisible()
+    })
 
-        await page.getByLabel('username').fill('PaulB')
-        await page.getByLabel('password').fill('byte')
-        await page.getByRole('button', { name: 'Login' }).click()
+    describe('Login', () => {
+        test('Login succeeds with correct credentials', async ({ page }) => {
+            //login.
+            const locator = page.getByText('Login')
+            await expect(locator).toBeVisible()
 
-        await expect(
-            page.getByText(
-                'Blogs'
-            )
-        ).toBeVisible()
+            await page.getByLabel('username').fill('PaulB')
+            await page.getByLabel('password').fill('byte')
+            await page.getByRole('button', { name: 'Login' }).click()
+
+            await expect(
+                page.getByText(
+                    'Blogs'
+                )
+            ).toBeVisible()
+        })
+        test('Login fails with incorrect credentials', async ({ page }) => {
+            //login.
+            const locator = page.getByText('Login')
+            await expect(locator).toBeVisible()
+
+            await page.getByLabel('username').fill('PaulJ')
+            await page.getByLabel('password').fill('byte')
+            await page.getByRole('button', { name: 'Login' }).click()
+
+            await expect(
+                page.getByText(
+                    'Login'
+                )
+            ).toBeVisible()
+        })
     })
 })
