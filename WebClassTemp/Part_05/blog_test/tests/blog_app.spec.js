@@ -57,4 +57,29 @@ describe('Blog app', () => {
             ).toBeVisible()
         })
     })
+    describe('When Logged In', () => {
+        test('A new blog can be created', async ({ page }) => {
+            //login.
+            const locator = page.getByText('Login')
+            await expect(locator).toBeVisible()
+
+            await page.getByLabel('username').fill('PaulB')
+            await page.getByLabel('password').fill('byte')
+            await page.getByRole('button', { name: 'Login' }).click()
+
+            //open new blog form
+            await page.getByRole('button', {name: 'Create New Blog'}).click()
+            
+            //fill in new blog and create
+            await page.getByLabel('Title:').fill('Snoopy Come Home')
+            await page.getByLabel('Author:').fill('Charles Schultz')
+            await page.getByLabel('URL:').fill('www.myblog20.com')
+            await page.getByRole('button', {name: 'Create'}).click({ timeout: 10000 })
+            await expect(
+                page.getByText(
+                    'A new blog Snoopy Come Home by Charles Schultz added'
+                )
+            ).toBeVisible()
+        })
+    })
 })
