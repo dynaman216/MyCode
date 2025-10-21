@@ -1,0 +1,26 @@
+{
+  "name": "blog_test",
+  "version": "1.0.0",
+  "description": "Blog Testing ",
+  "keywords": [],
+  "license": "ISC",
+  "author": "Paul Blankenship",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright show-report"
+  },
+  "dependencies": {
+    "playwright": "^1.56.1",
+    "playwright-core": "^1.56.1",
+    "undici-types": "^7.16.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.9.1"
+  }
+}
