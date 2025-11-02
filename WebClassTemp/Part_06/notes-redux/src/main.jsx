@@ -3,11 +3,11 @@ import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 
 import App from './App'
-import anecdoteReducer from './reducers/anecdoteReducer'
 import filterReducer from './reducers/filterReducer'
+import noteReducer from './reducers/noteReducer'
 
 const reducer = combineReducers({
-  anecdotes: anecdoteReducer,
+  notes: noteReducer,
   filter: filterReducer
 })
 
