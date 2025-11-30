@@ -18,13 +18,15 @@ export const createAnecdote = async (newAnecdote) => {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newAnecdote)
+    body: JSON.stringify(newAnecdote),
   }
 
   const response = await fetch(baseUrl, options)
 
   if (!response.ok) {
-    throw new Error('Failed to create anecdote')
+    // parse error body if available
+    const errorText = await response.text()
+    throw new Error(errorText || 'Failed to create anecdote')
   }
 
   return await response.json()
